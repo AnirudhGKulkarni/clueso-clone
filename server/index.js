@@ -7,8 +7,35 @@ const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+	origin: function (origin, callback) {
+		const allowed = [
+			'http://localhost:5173',
+			'http://192.168.29.92:8080',		
+		];
+		// allow requests with no origin (e.g., curl, mobile apps)
+		if (!origin) return callback(null, true);
+		if (allowed.indexOf(origin) !== -1) {
+			return callback(null, true);
+		}
+		return callback(new Error('CORS policy: origin not allowed'));
+	},
+	credentials: true,
+}));
 app.use(express.json());
+
+// Lightweight logging for auth routes to improve visibility during registration/login debugging
+app.use((req, res, next) => {
+	try {
+		if (req.path && req.path.startsWith('/api/auth')) {
+			console.log(`[AUTH] ${req.method} ${req.originalUrl} - body:`, req.body);
+		}
+	} catch (e) {
+		// ignore logging errors
+	}
+	next();
+});
+
 app.use('/api/auth', authRoutes);
 
 

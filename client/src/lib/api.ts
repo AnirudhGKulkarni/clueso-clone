@@ -1,19 +1,25 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5000/api";
+const baseURL = (import.meta.env && import.meta.env.VITE_API_URL) || "";
 
-export const api = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
+const api = axios.create({
+  baseURL,
+  withCredentials: true,
+});
+
+api.interceptors.request.use(
+  (config) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (token && config.headers) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    } catch (e) {
+      // ignore localStorage errors
+    }
+    return config;
   },
-});
+  (error) => Promise.reject(error)
+);
 
-// Attach token automatically if it exists
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+export default api;
