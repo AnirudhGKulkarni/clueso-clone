@@ -7,7 +7,7 @@ export function HeroSection() {
     <section className="relative pt-32 pb-20 overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 gradient-hero" />
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-clueso-pink-light/30 to-transparent" />
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-sky-100/30 to-transparent" />
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto">

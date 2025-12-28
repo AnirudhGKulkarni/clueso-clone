@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,6 +31,25 @@ export function Navbar() {
   
   const isActive = (path: string) => location.pathname === path;
 
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(Boolean(localStorage.getItem("token")));
+
+  useEffect(() => {
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "token") {
+        setIsLoggedIn(Boolean(e.newValue));
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    navigate("/");
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -42,7 +61,7 @@ export function Navbar() {
                 <path d="M4 4h6v6H4V4zm10 0h6v6h-6V4zM4 14h6v6H4v-6zm10 0h6v6h-6v-6z" />
               </svg>
             </div>
-            <span className="text-xl font-bold text-foreground">Clueso</span>
+            <span className="text-xl font-bold text-foreground">Clueso Clone</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -98,12 +117,25 @@ export function Navbar() {
 
           {/* Auth Buttons */}
           <div className="hidden md:flex items-center gap-3">
-            <Button variant="ghost" asChild>
-              <Link to="/login">Sign In</Link>
-            </Button>
-            <Button variant="navPrimary" asChild>
-              <Link to="/register">Start Free Trial</Link>
-            </Button>
+            {isLoggedIn ? (
+              <>
+                <Button variant="navPrimary" asChild>
+                  <Link to="/dashboard">Dashboard</Link>
+                </Button>
+                <Button variant="ghost" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="ghost" asChild>
+                  <Link to="/login">Sign In</Link>
+                </Button>
+                <Button variant="navPrimary" asChild>
+                  <Link to="/register">Start Free Trial</Link>
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -168,12 +200,25 @@ export function Navbar() {
             </div>
 
             <div className="border-t border-border pt-3 flex flex-col gap-2">
-              <Button variant="outline" asChild className="w-full">
-                <Link to="/login" onClick={() => setMobileMenuOpen(false)}>Sign In</Link>
-              </Button>
-              <Button asChild className="w-full">
-                <Link to="/register" onClick={() => setMobileMenuOpen(false)}>Start Free Trial</Link>
-              </Button>
+              {isLoggedIn ? (
+                <>
+                  <Button asChild className="w-full">
+                    <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)}>Dashboard</Link>
+                  </Button>
+                  <Button className="w-full" onClick={() => { setMobileMenuOpen(false); handleLogout(); }}>
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="outline" asChild className="w-full">
+                    <Link to="/login" onClick={() => setMobileMenuOpen(false)}>Sign In</Link>
+                  </Button>
+                  <Button asChild className="w-full">
+                    <Link to="/register" onClick={() => setMobileMenuOpen(false)}>Start Free Trial</Link>
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>

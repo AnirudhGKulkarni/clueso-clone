@@ -24,7 +24,12 @@ export default function RegisterPage() {
     setLoading(true);
     (async () => {
       try {
-        const res = await api.post("/auth/register", formData);
+        const payload = {
+          name: `${formData.firstName} ${formData.lastName}`.trim(),
+          email: formData.email,
+          password: formData.password,
+        };
+        const res = await api.post("/auth/register", payload);
         const token = res?.data?.token;
         if (token) {
           localStorage.setItem("token", token);
