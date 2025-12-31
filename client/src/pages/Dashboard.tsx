@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
 import {
   Video,
   FileText,
@@ -14,11 +14,7 @@ import {
   LogOut,
   ChevronDown,
   Home,
-  Sparkles,
-  Upload,
-  Clock,
-  Star,
-  MoreHorizontal,
+  
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,26 +36,75 @@ const sidebarItems = [
   { icon: Users, label: "Team", href: "/dashboard/team" },
   { icon: Settings, label: "Settings", href: "/dashboard/settings" },
 ];
-
-const recentVideos = [
-  { id: 1, title: "Product Demo - Q4 Features", duration: "3:24", status: "completed", date: "2 hours ago" },
-  { id: 2, title: "Onboarding Tutorial", duration: "5:12", status: "processing", date: "Yesterday" },
-  { id: 3, title: "Customer Success Webinar", duration: "12:45", status: "completed", date: "3 days ago" },
-  { id: 4, title: "Feature Walkthrough", duration: "2:18", status: "completed", date: "Last week" },
-];
-
-const quickStats = [
-  { label: "Total Videos", value: "24", icon: Video, trend: "+3 this week" },
-  { label: "Total Articles", value: "156", icon: FileText, trend: "+12 this week" },
-  { label: "Watch Time", value: "4.2h", icon: Clock, trend: "+15% vs last week" },
-  { label: "Team Members", value: "8", icon: Users, trend: "2 pending invites" },
-];
+// child pages render their own content (Home, Videos, Articles, Projects, Analytics, Team, Settings)
 
 export default function DashboardPage() {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
 
-  const isActive = (path: string) => location.pathname === path;
+  const [firstName, setFirstName] = useState<string>("John");
+  const [fullName, setFullName] = useState<string>("John Doe");
+
+  const navigate = useNavigate();
+
+  const isActive = (path: string) => {
+    if (path === "/dashboard") {
+      return location.pathname === "/dashboard" || location.pathname === "/dashboard/";
+    }
+    return location.pathname.startsWith(path);
+  };
+
+  useEffect(() => {
+    // Prefer stored user info if available
+    const userJson = localStorage.getItem("user");
+    if (userJson) {
+      try {
+        const userObj = JSON.parse(userJson);
+        if (userObj?.name) {
+          setFullName(userObj.name);
+          setFirstName(String(userObj.name).split(" ")[0]);
+          return; // done
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+    // Try to extract user name from JWT token (if backend returns a JWT with name)
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const parts = token.split(".");
+        if (parts.length >= 2) {
+          const payload = JSON.parse(decodeURIComponent(escape(atob(parts[1].replace(/-/g, "+").replace(/_/g, "/")))));
+          const name = payload?.firstName || payload?.name || payload?.given_name || "";
+          if (name) {
+            setFullName(String(name));
+            setFirstName(String(name).split(" ")[0]);
+          }
+        }
+      } catch (e) {
+        // ignore parse errors
+      }
+    }
+  }, []);
+
+  const handleLogout = () => {
+    try {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("name");
+      localStorage.removeItem("firstName");
+    } catch (e) {
+      // ignore
+    }
+    // notify other tabs/components
+    try {
+      window.dispatchEvent(new Event("storage"));
+    } catch (e) {}
+    navigate("/");
+  };
+
+  // child routes will render into <Outlet />
 
   return (
     <div className="min-h-screen bg-secondary/30 flex">
@@ -91,6 +136,13 @@ export default function DashboardPage() {
             <Link
               key={item.href}
               to={item.href}
+              onClick={(e) => {
+                // prevent potential default suppression and ensure navigation
+                try {
+                  e.preventDefault();
+                } catch (err) {}
+                navigate(item.href);
+              }}
               className={cn(
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                 isActive(item.href)
@@ -113,7 +165,7 @@ export default function DashboardPage() {
                   <span className="text-sm font-semibold text-primary">JD</span>
                 </div>
                 <div className="flex-1 text-left">
-                  <p className="text-sm font-medium text-foreground">John Doe</p>
+                  <p className="text-sm font-medium text-foreground">{fullName}</p>
                   <p className="text-xs text-muted-foreground">Pro Plan</p>
                 </div>
                 <ChevronDown className="w-4 h-4 text-muted-foreground" />
@@ -131,7 +183,7 @@ export default function DashboardPage() {
                 Help & Support
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-destructive">
+              <DropdownMenuItem className="text-destructive" onClick={handleLogout}>
                 <LogOut className="w-4 h-4 mr-2" />
                 Log out
               </DropdownMenuItem>
@@ -168,104 +220,9 @@ export default function DashboardPage() {
           </div>
         </header>
 
-        {/* Dashboard Content */}
+        {/* Dashboard Content (child routes render here) */}
         <div className="p-6">
-          {/* Welcome Section */}
-          <div className="mb-8">
-            <h1 className="text-2xl font-bold text-foreground mb-2">Welcome back, John! 👋</h1>
-            <p className="text-muted-foreground">Here's what's happening with your videos today.</p>
-          </div>
-
-          {/* Quick Stats */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            {quickStats.map((stat) => (
-              <div
-                key={stat.label}
-                className="bg-card border border-border rounded-xl p-5 hover:shadow-md transition-shadow"
-              >
-                <div className="flex items-start justify-between mb-3">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <stat.icon className="w-5 h-5 text-primary" />
-                  </div>
-                </div>
-                <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-                <p className="text-sm text-muted-foreground">{stat.label}</p>
-                <p className="text-xs text-primary mt-1">{stat.trend}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Quick Actions */}
-          <div className="grid sm:grid-cols-3 gap-4 mb-8">
-            <button className="bg-card border border-border rounded-xl p-6 text-left hover:border-primary/30 hover:shadow-md transition-all group">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                <Upload className="w-6 h-6 text-primary" />
-              </div>
-              <h3 className="font-semibold text-foreground mb-1">Upload Video</h3>
-              <p className="text-sm text-muted-foreground">Upload a screen recording to transform</p>
-            </button>
-            <button className="bg-card border border-border rounded-xl p-6 text-left hover:border-primary/30 hover:shadow-md transition-all group">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                <Video className="w-6 h-6 text-primary" />
-              </div>
-              <h3 className="font-semibold text-foreground mb-1">Record New</h3>
-              <p className="text-sm text-muted-foreground">Start a new screen recording</p>
-            </button>
-            <button className="bg-card border border-border rounded-xl p-6 text-left hover:border-primary/30 hover:shadow-md transition-all group">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                <Sparkles className="w-6 h-6 text-primary" />
-              </div>
-              <h3 className="font-semibold text-foreground mb-1">AI Templates</h3>
-              <p className="text-sm text-muted-foreground">Start with a pre-built template</p>
-            </button>
-          </div>
-
-          {/* Recent Videos */}
-          <div className="bg-card border border-border rounded-xl">
-            <div className="flex items-center justify-between p-5 border-b border-border">
-              <h2 className="text-lg font-semibold text-foreground">Recent Videos</h2>
-              <Button variant="ghost" size="sm" asChild>
-                <Link to="/dashboard/videos">View all</Link>
-              </Button>
-            </div>
-            <div className="divide-y divide-border">
-              {recentVideos.map((video) => (
-                <div
-                  key={video.id}
-                  className="flex items-center gap-4 p-4 hover:bg-secondary/50 transition-colors"
-                >
-                  <div className="w-32 h-20 rounded-lg bg-secondary flex items-center justify-center shrink-0">
-                    <Video className="w-8 h-8 text-muted-foreground" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-medium text-foreground truncate">{video.title}</h3>
-                    <div className="flex items-center gap-3 mt-1">
-                      <span className="text-sm text-muted-foreground">{video.duration}</span>
-                      <span
-                        className={cn(
-                          "text-xs px-2 py-0.5 rounded-full",
-                          video.status === "completed"
-                            ? "bg-green-100 text-green-700"
-                            : "bg-yellow-100 text-yellow-700"
-                        )}
-                      >
-                        {video.status}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="text-sm text-muted-foreground">{video.date}</div>
-                  <div className="flex items-center gap-1">
-                    <Button variant="ghost" size="icon">
-                      <Star className="w-4 h-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon">
-                      <MoreHorizontal className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <Outlet />
         </div>
       </main>
     </div>

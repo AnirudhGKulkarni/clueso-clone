@@ -31,8 +31,15 @@ export default function RegisterPage() {
         };
         const res = await api.post("/auth/register", payload);
         const token = res?.data?.token;
+        const user = res?.data?.user;
         if (token) {
           localStorage.setItem("token", token);
+          if (user) {
+            localStorage.setItem("user", JSON.stringify(user));
+            localStorage.setItem("name", user.name || "");
+            const first = (user.name || "").split(" ")[0] || "";
+            if (first) localStorage.setItem("firstName", first);
+          }
           navigate("/dashboard");
         } else {
           setError("Registration succeeded but no token received.");

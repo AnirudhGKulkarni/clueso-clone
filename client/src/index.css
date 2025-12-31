@@ -15,7 +15,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 220 15% 15%;
 
-    --primary: 292 84% 61%;
+    --primary: 203 85% 45%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 220 14% 96%;
@@ -24,7 +24,7 @@
     --muted: 220 14% 96%;
     --muted-foreground: 220 9% 46%;
 
-    --accent: 292 84% 61%;
+    --accent: 203 85% 45%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -37,15 +37,15 @@
     --radius: 0.5rem;
 
     /* Custom Clueso colors */
-    --clueso-pink: 292 84% 61%;
-    --clueso-pink-light: 292 84% 95%;
-    --clueso-pink-dark: 292 84% 45%;
+    --clueso-pink: 203 85% 45%;
+    --clueso-pink-light: 203 75% 92%;
+    --clueso-pink-dark: 203 85% 30%;
     --clueso-gray: 220 9% 46%;
     --clueso-dark: 220 15% 15%;
 
     /* Gradients */
     --gradient-hero: linear-gradient(135deg, hsl(203 85% 92%) 0%, hsl(0 0% 100%) 50%, hsl(0 0% 100%) 100%);
-    --gradient-pink: linear-gradient(135deg, hsl(292 84% 61%) 0%, hsl(330 80% 60%) 100%);
+    --gradient-pink: linear-gradient(135deg, hsl(203 85% 45%) 0%, hsl(210 80% 50%) 100%);
     --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(220 14% 98%) 100%);
 
     /* Shadows */
@@ -53,16 +53,16 @@
     --shadow-md: 0 4px 6px -1px hsl(220 15% 15% / 0.1), 0 2px 4px -2px hsl(220 15% 15% / 0.1);
     --shadow-lg: 0 10px 15px -3px hsl(220 15% 15% / 0.1), 0 4px 6px -4px hsl(220 15% 15% / 0.1);
     --shadow-xl: 0 20px 25px -5px hsl(220 15% 15% / 0.1), 0 8px 10px -6px hsl(220 15% 15% / 0.1);
-    --shadow-pink: 0 4px 14px 0 hsl(292 84% 61% / 0.25);
+    --shadow-pink: 0 4px 14px 0 hsl(203 85% 45% / 0.25);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 292 84% 61%;
+    --sidebar-primary: 203 85% 45%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 292 84% 95%;
+    --sidebar-accent: 203 75% 92%;
     --sidebar-accent-foreground: 220 15% 15%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 292 84% 61%;
+    --sidebar-ring: 203 85% 45%;
   }
 
   .dark {
@@ -75,7 +75,7 @@
     --popover: 220 15% 10%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 292 84% 61%;
+    --primary: 203 85% 45%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 220 15% 15%;
@@ -84,7 +84,7 @@
     --muted: 220 15% 15%;
     --muted-foreground: 220 9% 65%;
 
-    --accent: 292 84% 61%;
+    --accent: 203 85% 45%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62% 30%;
@@ -92,16 +92,16 @@
 
     --border: 220 15% 18%;
     --input: 220 15% 18%;
-    --ring: 292 84% 61%;
+    --ring: 203 85% 45%;
 
     --sidebar-background: 220 15% 10%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 292 84% 61%;
+    --sidebar-primary: 203 85% 45%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 220 15% 15%;
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 220 15% 18%;
-    --sidebar-ring: 292 84% 61%;
+    --sidebar-ring: 203 85% 45%;
   }
 }
 

@@ -22,8 +22,16 @@ export default function LoginPage() {
       try {
         const res = await api.post("/auth/login", { email, password });
         const token = res?.data?.token;
+        const user = res?.data?.user;
         if (token) {
           localStorage.setItem("token", token);
+          if (user) {
+            localStorage.setItem("user", JSON.stringify(user));
+            // also store name for convenience
+            localStorage.setItem("name", user.name || "");
+            const first = (user.name || "").split(" ")[0] || "";
+            if (first) localStorage.setItem("firstName", first);
+          }
           navigate("/dashboard");
         } else {
           setError("Login succeeded but no token received.");

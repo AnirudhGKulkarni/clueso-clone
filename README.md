@@ -1,5 +1,5 @@
 # clueso-clone
-This is a frontend + backend clone that replicates the user experience and workflow of Clueso, focusing on authentication, dashboard structure, and project management.
+This is a frontend and backend clone that replicates the user experience and workflow of Clueso, focusing on authentication, dasboard structure and project management.
 
 
 ## References
