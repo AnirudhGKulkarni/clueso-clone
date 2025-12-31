@@ -1,11 +1,11 @@
-# clueso-clone
+# Clueso Clone
 This is a frontend and backend clone that replicates the user experience and workflow of Clueso, focusing on authentication, dasboard structure and project management.
 
 This project focussess on:
-    1. Secure user authentication
-    2. Protected dashboard access
-    3. Clean and modern style UI
-    4. Has similar structure to thas of the real platform (clueso.ai)
+1. Secure user authentication
+2. Protected dashboard access
+3. Clean and modern style UI
+4. Has similar structure to thas of the real platform (clueso.ai)
 
 The goal of this project is to demonstrate practical full stack development skills  including frontend and backend integration, authentication and UI/UX design patterns commenly used in the modern day platforms.
 
@@ -43,10 +43,10 @@ Through this project I learnt the following concepts and applied in the project:
 4. Building a clear and maintainable UI components.
 
 # Disclaimer
-This is an project created for learning and internship evaluation purposes.
+This is an project created for learning and internship evaluation purposes.  
 It is not affiliated with Clueso.
 
 ## References
-This project was built using publicly available open-source references for architectural inspiration.
+This project was built using publicly available open-source references for architectural inspiration.  
 Core logic and implementation are original.
 
