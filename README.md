@@ -9,6 +9,10 @@ This project focussess on:
 
 The goal of this project is to demonstrate practical full stack development skills  including frontend and backend integration, authentication and UI/UX design patterns commenly used in the modern day platforms.
 
+# Video Walkthrough
+Demo Video:
+[Watch the project walkthrough](https://drive.google.com/drive/folders/18Vb_NqS--F6fIrvkq9RJQQW5DYIz2tHN?usp=sharing)
+
 # Tech Stacks
     1. Frontend: React, Vite, Typescript, Tailwind Css
     2. Backend: Node.js, Express

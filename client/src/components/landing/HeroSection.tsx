@@ -39,31 +39,7 @@ export function HeroSection() {
             </Button>
           </div>
 
-          {/* Video Preview */}
-          <div className="relative animate-fade-in" style={{ animationDelay: "0.3s" }}>
-            <div className="relative rounded-2xl overflow-hidden shadow-xl border border-border bg-card">
-              {/* Toggle buttons */}
-              <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
-                <div className="bg-muted/90 backdrop-blur-sm rounded-full p-1 flex items-center">
-                  <span className="px-3 py-1 text-sm text-muted-foreground">Rough Recording</span>
-                  <span className="px-3 py-1 text-sm bg-primary text-primary-foreground rounded-full flex items-center gap-1">
-                    <Sparkles className="w-3 h-3" />
-                    With Clueso
-                  </span>
-                </div>
-              </div>
-
-              {/* Video placeholder */}
-              <div className="aspect-video bg-gradient-to-br from-secondary to-muted flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                    <Play className="w-10 h-10 text-primary ml-1" />
-                  </div>
-                  <p className="text-muted-foreground">Watch the transformation</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* Video preview removed */}
         </div>
       </div>
     </section>
