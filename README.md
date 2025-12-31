@@ -28,7 +28,7 @@ This project is currently partially implemented.
     3. Role based access control
 
 # Reason for Partial Implementation
-Due to active preparation for the GATE examination, development was given to core architectural, authentication features and frontend backend integration rather than full feature completion.
+Due to active preparation for the GATE examination, development was given to core architectural, authentication features and frontend backend integration rather than full feature completion.  
 This project may be extended futher after the examination.
 
 # Authentication Flow
