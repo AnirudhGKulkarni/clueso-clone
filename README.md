@@ -11,7 +11,7 @@ The goal of this project is to demonstrate practical full stack development skil
 
 # Video Walkthrough
 Demo Video:
-[Watch the project walkthrough](https://drive.google.com/drive/folders/18Vb_NqS--F6fIrvkq9RJQQW5DYIz2tHN?usp=sharing)
+[Drive link of the project walkthrough](https://drive.google.com/drive/folders/18Vb_NqS--F6fIrvkq9RJQQW5DYIz2tHN?usp=sharing)
 
 # Tech Stacks
     1. Frontend: React, Vite, Typescript, Tailwind Css
